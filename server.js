@@ -15,10 +15,17 @@ console.log(res.rows[0].message) // Hello world!
 await client.end();*/
 
 
-app.get('/', (req, res) => {
+app.get('/in', (req, res) => {
   let number = getNumber();
   let result = {
       number: number
+  };
+  res.send(JSON.stringify(result));
+});
+
+app.get('/out', (req, res) => {
+  let result = {
+    number: req.query.number
   };
   res.send(JSON.stringify(result));
 });
