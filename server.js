@@ -13,25 +13,67 @@ const client = new Client({connectionString: conStringPri});
 client.connect();
 const getNumber = () => ('TS' + parseInt(Math.random() * 1000) + 'T154');
 app.get('/in', (req, res) => {
-    let output = { number:  getNumber() };
-    const text = 'INSERT INTO onpp.user(number) VALUES($1) RETURNING *';
-    const values = [output.number];
-    client.query(text, values, (err, result) => {
-        if (err) {
-            res.send(JSON.stringify(err.stack));
-        } else {
-            res.send(JSON.stringify(output));
-        }
+    let number = req.query.number;
+    getUser(number).then((row) => {
+        let text = 'INSERT INTO onpp.check_in(time_arr, fare, user_id) ' +
+            'VALUES($1, $2, $3) RETURNING *';
+        let values = [new Date(), 5, row.id];
+        client.query(text, values, (err) => {
+            if (err)
+                return res.send(JSON.stringify(err.stack));
+            else
+                return res.send(JSON.stringify({number: row.number}));
+        });
+    })
+    .catch(e => {
+        console.log(e);
     });
 });
 
+app.get('/login', (req, res) => {
+    let result = {
+        number: req.query.number
+    };
+    res.send(JSON.stringify(result));
+});
+
 app.get('/out', (req, res) => {
-  let result = {
-    number: req.query.number
-  };
-  res.send(JSON.stringify(result));
+    let number =  req.query.number;
+    getUser(number)
+        .then((row) => {
+
+            let text = 'UPDATE onpp.check_in SET ' +
+                'time_dep = $1' +
+                ' WHERE id = (select id from onpp.check_in where user_id = $2 ' +
+                'and time_dep is null order by id desc limit 1)';
+       
+            let values = [new Date(), row.id];
+            client.query(text, values, (err) => {
+                if (err)
+                    return res.send(JSON.stringify(err.stack));
+                else
+                    return res.send(JSON.stringify({number: row.number}));
+            });
+        });
 });
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
 });
+
+const getUser = (number) => {
+    return new Promise((resolve, reject) => {
+        client.query('SELECT * from onpp.user where number = $1',
+            [number], (err, result) => {
+                if (result.rows.length)
+                    resolve(result.rows[0]);
+                else {
+                    let text = 'INSERT INTO onpp.user(number) VALUES($1) RETURNING *';
+                    let values = [number];
+                    client.query(text, values, (err, result) => {
+                        resolve(result.rows[0]);
+                    })
+                }
+            });
+    });
+};
