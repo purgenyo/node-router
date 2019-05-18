@@ -31,17 +31,32 @@ app.get('/in', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    let result = {
-        number: req.query.number
-    };
-    res.send(JSON.stringify(result));
+    let number =  req.query.number;
+    let p_token = req.query.push_token;
+    getUser(number)
+        .then((row) => {
+            let text = 'UPDATE onpp.user SET ' +
+                'token = $1' +
+                ',push_token = $2' +
+                ' WHERE id = $3';
+            let user_token = parseInt(Math.random() * 40000).toString();
+            let values = [user_token, p_token, row.id];
+            client.query(text, values, (err) => {
+                if (err)
+                    return res.send(JSON.stringify(err.stack));
+                else
+                    return res.send(JSON.stringify({
+                        number: row.number,
+                        token: user_token
+                    }));
+            });
+        });
 });
 
 app.get('/out', (req, res) => {
     let number =  req.query.number;
     getUser(number)
         .then((row) => {
-
             let text = 'UPDATE onpp.check_in SET ' +
                 'time_dep = $1' +
                 ' WHERE id = (select id from onpp.check_in where user_id = $2 ' +
@@ -60,6 +75,7 @@ app.get('/out', (req, res) => {
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
 });
+
 
 const getUser = (number) => {
     return new Promise((resolve, reject) => {
