@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const port = 3000;
-
+app.use(cors());
 
 const username = 'onpp_user';
 const host = '95.179.241.170';
