@@ -31,7 +31,7 @@ app.get('/in', (req, res) => {
             `;
         gclient.request(query)
             .then(data => {
-                if (data.allPayCalcsList && data.allPayCalcsList[0].exitCheck) {
+                if (data.allPayCalcsList.length && data.allPayCalcsList[0].exitCheck) {
                     let text = 'INSERT INTO onpp.check_in(time_arr, fare, user_id) ' +
                         'VALUES($1, $2, $3) RETURNING *';
                     let values = [new Date(), 5, row.id];
