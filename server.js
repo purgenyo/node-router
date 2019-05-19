@@ -10,20 +10,40 @@ const password = '123123';
 const { Client } = require('pg');
 const conStringPri = `postgres://${username}:${password}@${host}/onpp`;
 const client = new Client({connectionString: conStringPri});
+
+const { GraphQLClient } = require('graphql-request');
+const gclient = new GraphQLClient('http://95.179.241.170:3001/graphql');
+app.use(cors());
 client.connect();
 const getNumber = () => ('TS' + parseInt(Math.random() * 1000) + 'T154');
 app.get('/in', (req, res) => {
     let number = req.query.number;
     getUser(number).then((row) => {
-        let text = 'INSERT INTO onpp.check_in(time_arr, fare, user_id) ' +
-            'VALUES($1, $2, $3) RETURNING *';
-        let values = [new Date(), 5, row.id];
-        client.query(text, values, (err) => {
-            if (err)
-                return res.send(JSON.stringify(err.stack));
-            else
-                return res.send(JSON.stringify({number: row.number}));
-        });
+
+        const query = `{
+              allPayCalcsList(filter: { userId: { 
+                equalTo: ${row.id}} 
+              }, orderBy: ID_DESC) {
+                exitCheck
+                parkingTime
+              }
+            }
+            `;
+        gclient.request(query)
+            .then(data => {
+                if (data.allPayCalcsList && data.allPayCalcsList[0].exitCheck) {
+                    let text = 'INSERT INTO onpp.check_in(time_arr, fare, user_id) ' +
+                        'VALUES($1, $2, $3) RETURNING *';
+                    let values = [new Date(), 5, row.id];
+                    client.query(text, values, (err) => {
+                        if (err)
+                            return res.send(JSON.stringify(err.stack));
+                        else
+                            return res.send(JSON.stringify({success: 1}));
+                    });
+                } else
+                    return res.send(JSON.stringify({success: 0}));
+            });
     })
     .catch(e => {
         console.log(e);
@@ -61,21 +81,29 @@ app.get('/out', (req, res) => {
                 'time_dep = $1' +
                 ' WHERE id = (select id from onpp.check_in where user_id = $2 ' +
                 'and time_dep is null order by id desc limit 1)';
-       
+
             let values = [new Date(), row.id];
             client.query(text, values, (err) => {
-                if (err)
+                if (err) {
+                    console.log(err);
                     return res.send(JSON.stringify(err.stack));
-                else
-                    return res.send(JSON.stringify({number: row.number}));
+                }
+                else {
+                    console.log('success true');
+                    return res.send(JSON.stringify({success: 1}));
+                }
             });
+        })
+        .catch(e => {
+            return res.send(JSON.stringify(e));
+            console.log(e)
         });
+
 });
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
 });
-
 
 const getUser = (number) => {
     return new Promise((resolve, reject) => {
