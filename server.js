@@ -20,30 +20,15 @@ app.get('/in', (req, res) => {
     let number = req.query.number;
     getUser(number).then((row) => {
 
-        const query = `{
-              allPayCalcsList(filter: { userId: { 
-                equalTo: ${row.id}} 
-              }, orderBy: ID_DESC) {
-                exitCheck
-                parkingTime
-              }
-            }
-            `;
-        gclient.request(query)
-            .then(data => {
-                if (data.allPayCalcsList.length && data.allPayCalcsList[0].exitCheck) {
-                    let text = 'INSERT INTO onpp.check_in(time_arr, fare, user_id) ' +
-                        'VALUES($1, $2, $3) RETURNING *';
-                    let values = [new Date(), 5, row.id];
-                    client.query(text, values, (err) => {
-                        if (err)
-                            return res.send(JSON.stringify(err.stack));
-                        else
-                            return res.send(JSON.stringify({success: 1}));
-                    });
-                } else
-                    return res.send(JSON.stringify({success: 0}));
-            });
+        let text = 'INSERT INTO onpp.check_in(time_arr, fare, user_id) ' +
+            'VALUES($1, $2, $3) RETURNING *';
+        let values = [new Date(), 5, row.id];
+        client.query(text, values, (err) => {
+            if (err)
+                return res.send(JSON.stringify(err.stack));
+            else
+                return res.send(JSON.stringify({success: 1}));
+        });
     })
     .catch(e => {
         console.log(e);

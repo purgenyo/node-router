@@ -122,7 +122,7 @@
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="73">
-              <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+              <caret line="22" column="25" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -154,6 +154,7 @@
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state>
               <filtering enabled="true">
+                <filter text="1=1" />
                 <filter text="user_id = 27" />
                 <filter text="user = mutation" />
                 <filter text="user_id = 25" />
@@ -194,7 +195,9 @@
           </provider>
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state>
-              <filtering enabled="true" />
+              <filtering enabled="true">
+                <filter text="1=1" />
+              </filtering>
             </state>
           </provider>
         </entry>
@@ -386,7 +389,7 @@
       <option name="presentableId" value="Default" />
       <updated>1558169167065</updated>
       <workItem from="1558169170597" duration="1212000" />
-      <workItem from="1558170428117" duration="32259000" />
+      <workItem from="1558170428117" duration="33311000" />
     </task>
     <task id="LOCAL-00001" summary="mock service">
       <created>1558173256561</created>
@@ -437,11 +440,18 @@
       <option name="project" value="LOCAL" />
       <updated>1558240764720</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="mock service">
+      <created>1558241282567</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1558241282567</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33471000" />
+    <option name="totallyTimeSpent" value="34523000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="21" width="1366" height="747" extended-state="6" />
@@ -705,19 +715,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/b15df2a9/6e38fa8b-0424-418a-8bb7-55c1a4d9b1c0/onpp.onpp.parking">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="dbDummy://dbtable:/b15df2a9/6e38fa8b-0424-418a-8bb7-55c1a4d9b1c0/onpp.onpp.user">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -731,7 +728,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/b15df2a9/6e38fa8b-0424-418a-8bb7-55c1a4d9b1c0/onpp.onpp.balance">
+    <entry file="dbDummy://dbtable:/b15df2a9/6e38fa8b-0424-418a-8bb7-55c1a4d9b1c0/onpp.onpp.parking">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -773,6 +770,7 @@
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true">
+            <filter text="1=1" />
             <filter text="user_id = 27" />
             <filter text="user = mutation" />
             <filter text="user_id = 25" />
@@ -781,10 +779,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="dbDummy://dbtable:/b15df2a9/6e38fa8b-0424-418a-8bb7-55c1a4d9b1c0/onpp.onpp.balance">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true">
+            <filter text="1=1" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="73">
-          <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+          <caret line="22" column="25" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
           <folding />
         </state>
       </provider>
