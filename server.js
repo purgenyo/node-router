@@ -13,7 +13,7 @@ const client = new Client({connectionString: conStringPri});
 
 const { GraphQLClient } = require('graphql-request');
 const gclient = new GraphQLClient('http://95.179.241.170:3001/graphql');
-app.use(cors());
+
 client.connect();
 const getNumber = () => ('TS' + parseInt(Math.random() * 1000) + 'T154');
 app.get('/in', (req, res) => {
